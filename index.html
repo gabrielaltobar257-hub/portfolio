@@ -263,11 +263,7 @@ footer{padding:2rem 3rem;display:flex;justify-content:space-between;align-items:
       <div class="h-img-wrap">
         <div class="h-img-frame">
           <img id="heroImg" src="hero.jpg" alt="Gabriel Dominic Altobar"/>
-          <div class="uph" id="heroPh">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(63,205,165,.5)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-            <span>Click to upload<br>your photo</span>
-          </div>
-          <input type="file" accept="image/*" class="uinp" id="heroInp"/>
+  
         </div>
         <div class="h-img-tag">📍 Based in Iligan City, PH</div>
       </div>
@@ -292,11 +288,7 @@ footer{padding:2rem 3rem;display:flex;justify-content:space-between;align-items:
     <div class="rv">
       <div class="about-img-wrap">
         <img id="aboutImg" src="about.jpg" alt="Gabriel Altobar"/>
-        <div class="uph" id="aboutPh">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(63,205,165,.5)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-          <span>Click to upload photo</span>
-        </div>
-        <input type="file" accept="image/*" class="uinp" id="aboutInp"/>
+
         <div class="about-overlay"><small>IT Professional · Iligan, PH</small><p>Gabriel Dominic P. Altobar</p></div>
       </div>
     </div>
@@ -333,11 +325,6 @@ footer{padding:2rem 3rem;display:flex;justify-content:space-between;align-items:
       <div class="tcard tcard1">
         <div class="tcard-frame">
           <img id="thesisImg1" src="thesis.jpg" alt="Capstone defense"/>
-          <div class="uph" id="thesisPh1">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(63,205,165,.5)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-            <span>Defense photo</span>
-          </div>
-          <input type="file" accept="image/*" class="uinp" id="thesisInp1"/>
         </div>
         <div class="tcard-pill">🏆 Capstone Defense</div>
       </div>
@@ -346,11 +333,6 @@ footer{padding:2rem 3rem;display:flex;justify-content:space-between;align-items:
       <div class="tcard tcard2">
         <div class="tcard-frame">
           <img id="thesisImg2" src="thesis2.jpg" alt="Team photo"/>
-          <div class="uph" id="thesisPh2">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(63,205,165,.5)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-            <span>Team photo</span>
-          </div>
-          <input type="file" accept="image/*" class="uinp" id="thesisInp2"/>
         </div>
         <div class="tcard-pill">👨‍💻 The Dream Team</div>
       </div>
@@ -454,14 +436,12 @@ footer{padding:2rem 3rem;display:flex;justify-content:space-between;align-items:
     <div class="life-cards">
       <div class="life-card rv">
         <img id="lifeImg1" src="moto.jpg" alt="Riding"/>
-        <div class="uph" id="lifePh1" style="z-index:3"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(63,205,165,.5)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Motorcycle photo</span></div>
-        <input type="file" accept="image/*" class="uinp" id="lifeInp1" style="z-index:4"/>
+
         <div class="life-info"><div class="life-label">Riding / 01</div><div class="life-title">Life on Two Wheels</div></div>
       </div>
       <div class="life-card rv d1">
         <img id="lifeImg2" src="cafe.jpg" alt="Café"/>
-        <div class="uph" id="lifePh2" style="z-index:3"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(63,205,165,.5)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Café photo</span></div>
-        <input type="file" accept="image/*" class="uinp" id="lifeInp2" style="z-index:4"/>
+
         <div class="life-info"><div class="life-label">Café culture / 02</div><div class="life-title">Coffee & Good Vibes</div></div>
       </div>
       <div class="rv d2" style="background:var(--bg3);border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;height:300px">
@@ -505,30 +485,12 @@ footer{padding:2rem 3rem;display:flex;justify-content:space-between;align-items:
 </footer>
 
 <script>
-// ── Upload helper ──
-function setupUpload(imgId, phId, inpId){
-  const img=document.getElementById(imgId),
-        ph=document.getElementById(phId),
-        inp=document.getElementById(inpId);
-  if(!img||!ph||!inp) return;
-  const hide=()=>{ ph.style.display='none'; };
-  img.addEventListener('error',()=>{ img.style.display='none'; });
-  img.addEventListener('load',()=>{ if(img.naturalWidth>0) hide(); });
-  if(img.complete && img.naturalWidth>0) hide();
-  inp.addEventListener('change',e=>{
-    const f=e.target.files[0]; if(!f) return;
-    const r=new FileReader();
-    r.onload=ev=>{ img.src=ev.target.result; img.style.display='block'; hide(); inp.style.display='none'; };
-    r.readAsDataURL(f);
+// ── Image fallback if file not found ──
+document.querySelectorAll('img').forEach(img=>{
+  img.addEventListener('error',()=>{
+    img.style.display='none';
   });
-}
-
-setupUpload('heroImg',   'heroPh',    'heroInp');
-setupUpload('aboutImg',  'aboutPh',   'aboutInp');
-setupUpload('thesisImg1','thesisPh1', 'thesisInp1');
-setupUpload('thesisImg2','thesisPh2', 'thesisInp2');
-setupUpload('lifeImg1',  'lifePh1',   'lifeInp1');
-setupUpload('lifeImg2',  'lifePh2',   'lifeInp2');
+});
 
 // ── Custom cursor ──
 const cur=document.getElementById('cur'), ring=document.getElementById('cur-r');
