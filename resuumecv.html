@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Gabriel Dominic Altobar</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--bg2:#111;--bg3:#161616;--bg4:#1a1a1a;
+  --text:#f0eeea;--muted:#777;--border:#1f1f1f;
+  --accent:#3fcda5;--accent2:rgba(63,205,165,.12);
+  --radius:12px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.7;overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cur{position:fixed;width:9px;height:9px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,opacity .2s}
+#cur-r{position:fixed;width:34px;height:34px;border:1px solid rgba(63,205,165,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,opacity .2s}
+
+/* ORB BG */
+.orb{position:fixed;pointer-events:none;border-radius:50%;filter:blur(120px);opacity:.09}
+.o1{width:700px;height:700px;background:var(--accent);top:-200px;right:-180px}
+.o2{width:500px;height:500px;background:#534ab7;bottom:5%;left:-200px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 3rem;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
+nav.sc{background:rgba(8,8,8,.88);backdrop-filter:blur(16px);border-color:var(--border)}
+.n-logo{font-size:14px;font-weight:500;color:var(--text)}
+nav ul{list-style:none;display:flex;gap:2rem}
+nav ul a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
+nav ul a:hover{color:var(--text)}
+.n-cta{font-size:13px;padding:7px 18px;border:1px solid var(--border);border-radius:6px;color:var(--text);text-decoration:none;transition:border-color .2s,color .2s}
+.n-cta:hover{border-color:var(--accent);color:var(--accent)}
+
+/* HERO */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;padding:8rem 5rem 5rem;max-width:1200px;margin:0 auto}
+.hero-left{}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.75rem;opacity:0;animation:fadeUp .7s .2s forwards}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+h1.hn{font-size:clamp(2.8rem,5.5vw,5rem);font-weight:500;line-height:1.05;letter-spacing:-.025em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s .35s forwards}
+h1.hn em{color:var(--accent);font-style:normal}
+.hero-sub{font-size:15px;color:var(--muted);max-width:480px;margin-bottom:2.25rem;opacity:0;animation:fadeUp .8s .5s forwards;line-height:1.75}
+.hero-btns{display:flex;gap:.875rem;opacity:0;animation:fadeUp .8s .65s forwards}
+.btn-p{padding:11px 26px;background:var(--accent);color:#080808;font-size:13.5px;font-weight:500;border-radius:7px;text-decoration:none;transition:opacity .2s,transform .25s}
+.btn-p:hover{opacity:.82;transform:translateY(-3px)}
+.btn-o{padding:11px 26px;border:1px solid var(--border);color:var(--text);font-size:13.5px;border-radius:7px;text-decoration:none;transition:border-color .2s,transform .25s}
+.btn-o:hover{border-color:var(--accent);transform:translateY(-3px)}
+.hero-meta{display:flex;gap:2rem;margin-top:2.5rem;opacity:0;animation:fadeUp .8s .8s forwards}
+.hero-stat span{display:block;font-size:1.6rem;font-weight:500;color:var(--text)}
+.hero-stat small{font-size:12px;color:var(--muted)}
+
+/* HERO IMAGE */
+.hero-right{display:flex;justify-content:center;align-items:center;opacity:0;animation:fadeIn .9s .5s forwards}
+.hero-img-wrap{position:relative;width:360px;height:480px}
+/* teal glow underneath */
+.hero-img-wrap::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:70%;height:80px;background:var(--accent);filter:blur(55px);opacity:.18;z-index:0;border-radius:50%}
+/* decorative ring */
+.hero-img-wrap::before{content:'';position:absolute;inset:-18px;border:1px solid rgba(63,205,165,.12);border-radius:28px;z-index:0;animation:ringPulse 4s ease-in-out infinite}
+@keyframes ringPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.02)}}
+.hero-img-frame{width:100%;height:100%;border-radius:22px;overflow:hidden;border:none;position:relative;z-index:2;background:transparent}
+.hero-img-frame img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  filter:grayscale(8%) contrast(1.05) brightness(1.02);
+  -webkit-mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
+  mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
+  animation:floatImg 7s ease-in-out infinite;
+  display:block;
+}
+@keyframes floatImg{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-img-tag{position:absolute;bottom:28px;right:-20px;background:rgba(17,17,17,.85);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:10px;padding:.6rem 1rem;font-size:12px;color:var(--muted);z-index:5;display:flex;align-items:center;gap:6px}
+.hero-img-tag::before{content:'';width:6px;height:6px;background:#22c55e;border-radius:50%;flex-shrink:0;animation:blink 2s infinite}
+/* dot grid decoration */
+.hero-dot-grid{position:absolute;top:-20px;left:-30px;width:120px;height:120px;background-image:radial-gradient(circle,rgba(63,205,165,.25) 1px,transparent 1px);background-size:14px 14px;z-index:1;opacity:.6}
+.hero-scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeIn .8s 1.4s forwards}
+.hero-scroll-hint span{font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.scroll-bar{width:1px;height:44px;background:linear-gradient(to bottom,var(--accent),transparent);animation:sd 2s 1.4s infinite}
+@keyframes sd{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* MARQUEE */
+.mq{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.85rem 0;overflow:hidden;white-space:nowrap}
+.mq-track{display:inline-flex;gap:2.5rem;animation:mqa 30s linear infinite}
+.mq:hover .mq-track{animation-play-state:paused}
+.mq-item{font-size:12.5px;color:var(--muted);letter-spacing:.04em;display:inline-flex;align-items:center;gap:10px}
+.mq-item::after{content:'·';color:var(--accent)}
+@keyframes mqa{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+.wrap{max-width:1100px;margin:0 auto;padding:6rem 3rem}
+.s-tag{font-size:10.5px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.1rem}
+.s-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:500;line-height:1.15;margin-bottom:3rem}
+.s-title em{color:var(--accent);font-style:normal}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.rv.on{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-img-wrap{position:relative;height:480px;border-radius:16px;overflow:hidden;border:1px solid var(--border)}
+.about-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(10%);transition:transform .6s ease}
+.about-img-wrap:hover img{transform:scale(1.04)}
+.about-img-overlay{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(8,8,8,.9),transparent)}
+.about-img-label{font-size:12px;color:var(--muted)}
+.about-img-name{font-size:16px;font-weight:500;color:var(--text)}
+.about-text p{font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:1rem}
+.about-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.tag{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--muted);transition:border-color .2s,color .2s}
+.tag:hover{border-color:var(--accent);color:var(--accent)}
+
+/* EXPERIENCE */
+.exp-list{display:flex;flex-direction:column}
+.exp-item{display:grid;grid-template-columns:180px 1fr;gap:2.5rem;padding:2.5rem 0;border-top:1px solid var(--border)}
+.exp-item:last-child{border-bottom:1px solid var(--border)}
+.exp-date{font-size:13px;color:var(--muted);padding-top:4px}
+.exp-co{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
+.exp-role{font-size:17px;font-weight:500;margin-bottom:.65rem}
+.exp-desc{font-size:14px;color:var(--muted);margin-bottom:.9rem;line-height:1.75}
+.hbox{background:var(--bg3);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:7px;padding:.9rem 1.1rem;margin-bottom:.9rem;font-size:13px;color:var(--muted)}
+.hbox strong{color:var(--text);font-weight:500}
+.bul{list-style:none;display:flex;flex-direction:column;gap:.35rem}
+.bul li{font-size:13.5px;color:var(--muted);padding-left:18px;position:relative;line-height:1.65}
+.bul li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:11px;top:4px}
+
+/* EDUCATION */
+.edu-list{display:flex;flex-direction:column}
+.edu-item{display:grid;grid-template-columns:180px 1fr;gap:2.5rem;padding:2rem 0;border-top:1px solid var(--border)}
+.edu-item:last-child{border-bottom:1px solid var(--border)}
+.edu-yr{font-size:13px;color:var(--muted)}
+.edu-deg{font-size:16px;font-weight:500;margin-bottom:.25rem}
+.edu-sch{font-size:13px;color:var(--accent);margin-bottom:.35rem}
+.edu-sub{font-size:13px;color:var(--muted)}
+
+/* CERTS */
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.c-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:border-color .3s,transform .3s}
+.c-card:hover{border-color:var(--accent);transform:translateY(-5px)}
+.c-ico{width:38px;height:38px;border-radius:9px;background:var(--accent2);display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;font-size:18px}
+.c-name{font-size:14px;font-weight:500;margin-bottom:.3rem;line-height:1.4}
+.c-iss{font-size:12px;color:var(--accent);margin-bottom:.4rem}
+.c-dt{font-size:12px;color:var(--muted)}
+
+/* LIFE SECTION */
+#life{border-top:1px solid var(--border)}
+.life-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}
+.life-card{position:relative;border-radius:16px;overflow:hidden;height:300px;border:1px solid var(--border);cursor:pointer}
+.life-card:first-child{grid-column:span 2;height:380px}
+.life-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s}
+.life-card:hover img{transform:scale(1.07);filter:brightness(.7)}
+.life-card-info{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(8,8,8,.85),transparent);transform:translateY(8px);opacity:0;transition:opacity .35s,transform .35s}
+.life-card:hover .life-card-info{opacity:1;transform:none}
+.life-card-label{font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem}
+.life-card-title{font-size:18px;font-weight:500}
+
+/* CONTACT */
+#contact{background:var(--bg2);border-top:1px solid var(--border)}
+.contact-inner{max-width:1100px;margin:0 auto;padding:6rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.c-left h2{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:500;line-height:1.15;margin-bottom:.85rem}
+.c-left h2 em{color:var(--accent);font-style:normal}
+.c-left p{color:var(--muted);font-size:14px;margin-bottom:2rem;line-height:1.75}
+.c-links{display:flex;flex-direction:column;gap:.6rem}
+.c-link{display:flex;align-items:center;gap:.75rem;font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;padding:.4rem 0}
+.c-link:hover{color:var(--accent)}
+.c-ico2{width:32px;height:32px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:border-color .2s}
+.c-link:hover .c-ico2{border-color:var(--accent)}
+.c-right{display:flex;flex-direction:column;gap:.7rem}
+.c-right input,.c-right textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:.8rem 1rem;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;resize:none}
+.c-right input:focus,.c-right textarea:focus{border-color:var(--accent)}
+.c-right textarea{min-height:110px}
+.c-right button{padding:12px;background:var(--accent);color:#080808;border:none;border-radius:7px;font-size:14px;font-weight:500;cursor:pointer;transition:opacity .2s,transform .2s}
+.c-right button:hover{opacity:.85;transform:translateY(-2px)}
+
+/* FOOTER */
+footer{padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);border-top:1px solid var(--border);max-width:none}
+.f-links{display:flex;gap:1.5rem}
+.f-links a{color:var(--muted);text-decoration:none;transition:color .2s}
+.f-links a:hover{color:var(--accent)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+@media(max-width:800px){
+  nav{padding:.9rem 1.25rem}
+  nav ul{display:none}
+  #hero{grid-template-columns:1fr;padding:7rem 1.5rem 4rem;gap:2.5rem}
+  .hero-right{order:-1}
+  .hero-img-wrap{width:100%;height:280px}
+  .wrap{padding:4rem 1.5rem}
+  .about-grid,.exp-item,.edu-item,.contact-inner{grid-template-columns:1fr;gap:1.5rem}
+  .cert-grid{grid-template-columns:1fr}
+  .life-card:first-child{grid-column:span 1;height:240px}
+  footer{flex-direction:column;gap:.75rem;text-align:center;padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="n-logo">Gabriel Altobar</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#life">Life</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:gabrielaltobar257@gmail.com" class="n-cta">Let's Talk</a>
+</nav>
+
+<!-- HERO -->
+<section style="position:relative">
+<div id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Open to opportunities</div>
+    <h1 class="hn">Gabriel<br>Dominic<br><em>Altobar</em></h1>
+    <p class="hero-sub">IT professional specializing in B2B lead generation, Power Apps development, and digital workflow optimization. I build systems that drive real impact.</p>
+    <div class="hero-btns">
+      <a href="#experience" class="btn-p">View My Work</a>
+      <a href="#contact" class="btn-o">Get in Touch</a>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <span>2+</span>
+        <small>Years experience</small>
+      </div>
+      <div class="hero-stat">
+        <span>5</span>
+        <small>HR modules built</small>
+      </div>
+      <div class="hero-stat">
+        <span>3</span>
+        <small>Certifications</small>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <div class="hero-img-frame">
+        <img id="heroImg" src="hero.jpg" alt="Gabriel Dominic Altobar"/>
+      </div>
+      <div class="hero-img-tag">Based in Iligan City, PH</div>
+    </div>
+  </div>
+</div>
+<div class="hero-scroll-hint">
+  <span>scroll</span>
+  <div class="scroll-bar"></div>
+</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track">
+    <span class="mq-item">B2B Lead Generation</span>
+    <span class="mq-item">Microsoft Power Apps</span>
+    <span class="mq-item">ZoomInfo</span>
+    <span class="mq-item">LinkedIn Sales Navigator</span>
+    <span class="mq-item">SpyFu</span>
+    <span class="mq-item">IT Service Management</span>
+    <span class="mq-item">Web Design & Dev</span>
+    <span class="mq-item">Data Management</span>
+    <span class="mq-item">Microsoft Excel</span>
+    <span class="mq-item">Project Management</span>
+    <span class="mq-item">PPC Research</span>
+    <span class="mq-item">UX Design</span>
+    <span class="mq-item">Process Digitalization</span>
+    <span class="mq-item">B2B Lead Generation</span>
+    <span class="mq-item">Microsoft Power Apps</span>
+    <span class="mq-item">ZoomInfo</span>
+    <span class="mq-item">LinkedIn Sales Navigator</span>
+    <span class="mq-item">SpyFu</span>
+    <span class="mq-item">IT Service Management</span>
+    <span class="mq-item">Web Design & Dev</span>
+    <span class="mq-item">Data Management</span>
+    <span class="mq-item">Microsoft Excel</span>
+    <span class="mq-item">Project Management</span>
+    <span class="mq-item">PPC Research</span>
+    <span class="mq-item">UX Design</span>
+    <span class="mq-item">Process Digitalization</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="wrap" id="about">
+  <div class="about-grid">
+    <div class="rv">
+      <div class="about-img-wrap">
+        <img id="aboutImg" src="about.jpg" alt="Gabriel Altobar"/>
+        <div class="about-img-overlay">
+          <div class="about-img-label">IT Professional · Iligan, PH</div>
+          <div class="about-img-name">Gabriel Dominic P. Altobar</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="s-tag rv d1">About me</p>
+      <h2 class="s-title rv d2">Motivated to build<br><em>what matters.</em></h2>
+      <div class="rv d3">
+        <p class="about-text" style="font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:1rem">I'm a detail-oriented IT professional with over two years of experience in B2B lead generation, data management, and digital workflow optimization.</p>
+        <p class="about-text" style="font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:1rem">At Republic Cement, I architected the <strong style="color:var(--text);font-weight:500">Republic Smart Hub</strong> — a full Microsoft Power Apps HR service platform covering five modules, used across departments by non-technical staff.</p>
+        <p class="about-text" style="font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:1.5rem">I bring strong analytical thinking, a commitment to accuracy, and a passion for turning business requirements into scalable, elegant solutions.</p>
+        <div class="about-tags">
+          <span class="tag">Power Apps</span>
+          <span class="tag">Lead Gen</span>
+          <span class="tag">ITSM</span>
+          <span class="tag">UX Design</span>
+          <span class="tag">Web Dev</span>
+          <span class="tag">Excel</span>
+          <span class="tag">SpyFu</span>
+          <span class="tag">ZoomInfo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="wrap" id="experience">
+  <p class="s-tag rv">Experience</p>
+  <h2 class="s-title rv d1">Professional <em>journey</em></h2>
+  <div class="exp-list">
+    <div class="exp-item rv">
+      <div class="exp-date">Dec 2025 – Mar 2026</div>
+      <div>
+        <div class="exp-co">Republic Cement · Iligan, PH</div>
+        <div class="exp-role">Information Technology Intern</div>
+        <p class="exp-desc">Built and deployed a full-scale HR service platform in a live corporate environment using Microsoft Power Apps.</p>
+        <div class="hbox"><strong>OJT Project: Republic Smart Hub</strong> — Power Apps HR platform covering Supply, Mobility, Accommodation, Ride, and Transport modules.</div>
+        <ul class="bul">
+          <li>Architected a centralized employee service request platform, reducing manual HR processing time.</li>
+          <li>Built an intuitive UI tailored for non-technical HR staff, ensuring high adoption across all departments.</li>
+          <li>Designed a real-time searchable tracking system improving accountability and response time.</li>
+          <li>Applied system analysis, UX design, and process digitalization in a live enterprise setting.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item rv">
+      <div class="exp-date">Jul 2023 – Present</div>
+      <div>
+        <div class="exp-co">Guaranteed PPC · Remote</div>
+        <div class="exp-role">B2B Lead Generation Specialist</div>
+        <p class="exp-desc">Source and qualify high-value leads for targeted PPC campaigns, consistently meeting and exceeding lead volume targets.</p>
+        <ul class="bul">
+          <li>Leverage ZoomInfo, LinkedIn Sales Navigator, and SpyFu to extract and enrich key contact data.</li>
+          <li>Analyze competitor PPC strategies and keyword performance to surface actionable campaign insights.</li>
+          <li>Maintain structured lead databases in Excel with advanced filtering, deduplication, and reporting.</li>
+          <li>Collaborate with marketing and sales to align lead criteria with campaign objectives.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDUCATION -->
+<div class="wrap" id="education">
+  <p class="s-tag rv">Education</p>
+  <h2 class="s-title rv d1">Academic <em>background</em></h2>
+  <div class="edu-list">
+    <div class="edu-item rv">
+      <div class="edu-yr">2022 – 2026</div>
+      <div>
+        <div class="edu-deg">Bachelor of Science in Information Technology</div>
+        <div class="edu-sch">St. Michael's College of Iligan Inc. — Iligan City, PH</div>
+        <div class="edu-sub">System Development · Database Management · Project Management · ITSM · HCI · Web Design & Development</div>
+      </div>
+    </div>
+    <div class="edu-item rv">
+      <div class="edu-yr">2020 – 2022</div>
+      <div>
+        <div class="edu-deg">Senior High School — ICT Strand</div>
+        <div class="edu-sch">St. Michael's College of Iligan Inc. — Iligan City, PH</div>
+        <div class="edu-sub">Information and Communications Technology track</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CERTIFICATIONS -->
+<div class="wrap" id="certifications">
+  <p class="s-tag rv">Certifications</p>
+  <h2 class="s-title rv d1">Professional <em>credentials</em></h2>
+  <div class="cert-grid">
+    <div class="c-card rv">
+      <div class="c-ico">🌐</div>
+      <div class="c-name">Responsible AI in a Global Context</div>
+      <div class="c-iss">United Nations University (UNU)</div>
+      <div class="c-dt">April 26, 2026</div>
+    </div>
+    <div class="c-card rv d1">
+      <div class="c-ico">⚙️</div>
+      <div class="c-name">Atlassian IT Service Management (ITSM)</div>
+      <div class="c-iss">Atlassian</div>
+      <div class="c-dt">April 26, 2026</div>
+    </div>
+    <div class="c-card rv d2">
+      <div class="c-ico">💻</div>
+      <div class="c-name">CompTIA A+ Core 1 (220-1201) Cert Prep</div>
+      <div class="c-iss">CompTIA · LinkedIn Learning</div>
+      <div class="c-dt">May 1, 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- LIFE SECTION -->
+<div id="life">
+  <div class="wrap">
+    <p class="s-tag rv">Life outside work</p>
+    <h2 class="s-title rv d1">Beyond the <em>screen</em></h2>
+    <div class="life-cards">
+      <div class="life-card rv" style="grid-column:span 2;height:380px">
+        <img id="lifeImg1" src="moto.jpg" alt="On the road"/>
+        <div class="life-card-info">
+          <div class="life-card-label">Riding / 01</div>
+          <div class="life-card-title">Life on Two Wheels</div>
+        </div>
+      </div>
+      <div class="life-card rv d1">
+        <img id="lifeImg2" src="cafe.jpg" alt="Coffee"/>
+        <div class="life-card-info">
+          <div class="life-card-label">Café culture / 02</div>
+          <div class="life-card-title">Coffee & Good Vibes</div>
+        </div>
+      </div>
+      <div class="life-card rv d2" style="background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;border:1px solid var(--border)">
+        <span style="font-size:2rem">📍</span>
+        <span style="font-size:15px;font-weight:500">Iligan City</span>
+        <span style="font-size:13px;color:var(--muted)">Northern Mindanao, PH</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="contact-inner">
+    <div class="rv">
+      <h2 class="c-left"><span style="display:block;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:500;line-height:1.15;margin-bottom:.85rem">Let's build something <em style="color:var(--accent);font-style:normal">extraordinary</em> together</span></h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:2rem;line-height:1.75">Open for full-time roles, freelance projects, and remote collaborations. I'll get back to you within 24 hours.</p>
+      <div class="c-links">
+        <a href="mailto:gabrielaltobar257@gmail.com" class="c-link"><div class="c-ico2">✉️</div>gabrielaltobar257@gmail.com</a>
+        <a href="tel:+639534877183" class="c-link"><div class="c-ico2">📞</div>+63 953 487 7183</a>
+        <a href="https://linkedin.com/in/gabrieldominic-altobar-0a8a57334" target="_blank" class="c-link"><div class="c-ico2">🔗</div>LinkedIn Profile</a>
+        <span class="c-link" style="cursor:default"><div class="c-ico2">📍</div>Iligan City, Philippines</span>
+      </div>
+    </div>
+    <div class="rv d2 c-right">
+      <input type="text" placeholder="Your name"/>
+      <input type="email" placeholder="Your email"/>
+      <textarea placeholder="Your message…"></textarea>
+      <button onclick="this.textContent='Message sent ✓';this.style.background='#0f6e56'">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Gabriel Dominic P. Altobar · Iligan City, Philippines</span>
+  <div class="f-links">
+    <a href="mailto:gabrielaltobar257@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/gabrieldominic-altobar-0a8a57334" target="_blank">LinkedIn</a>
+    <a href="#hero">↑ Top</a>
+  </div>
+</footer>
+
+<script>
+// Click-to-upload for each image slot
+const slots = [
+  {id:'heroImg',  label:'Click to upload\nHero photo\n(graduation pic)'},
+  {id:'aboutImg', label:'Click to upload\nAbout photo\n(suit pic)'},
+  {id:'lifeImg1', label:'Click to upload\nLifestyle photo\n(motorcycle pic)'},
+  {id:'lifeImg2', label:'Click to upload\nLifestyle photo\n(café pic)'},
+];
+
+// Images are loaded from local files — see src attributes on each img tag
+slots.forEach(({id})=>{
+  const img = document.getElementById(id);
+  if(!img) return;
+  img.style.display = 'block';
+  // Show placeholder bg if image fails to load
+  img.addEventListener('error', ()=>{
+    img.style.display='none';
+    const ph = document.createElement('div');
+    ph.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:var(--bg3);border-radius:inherit;z-index:5';
+    ph.innerHTML=`<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(63,205,165,.4)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span style="font-size:11px;color:var(--muted);text-align:center">Add image file<br>to folder</span>`;
+    img.parentElement.style.position='relative';
+    img.parentElement.appendChild(ph);
+  });
+});
+
+// Custom cursor
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function loop(){
+  rx+=(mx-rx)*.13;ry+=(my-ry)*.13;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,.life-card,.c-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';cur.style.transform='translate(-50%,-50%) scale(0)';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='34px';ring.style.height='34px';cur.style.transform='translate(-50%,-50%) scale(1)';});
+});
+
+// Scroll nav
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('sc',scrollY>50),{passive:true});
+
+// Reveal on scroll
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target)}});
+},{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
