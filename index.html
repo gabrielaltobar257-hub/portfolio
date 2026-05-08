@@ -81,11 +81,11 @@ nav ul a:hover{color:var(--t)}
 /* ═══ HERO IMAGE ═══ */
 .hero-img-col{position:relative;opacity:0;animation:fadeIn 1s .6s forwards}
 .hero-img-outer{position:relative;width:100%;aspect-ratio:.72}
-/* animated border */
-.hero-img-outer::before{content:'';position:absolute;inset:-1px;border-radius:16px;background:conic-gradient(from 180deg,transparent 60%,var(--t) 100%,transparent);animation:borderSpin 4s linear infinite;z-index:0}
+/* pulsing corner border */
+.hero-img-outer::before{content:'';position:absolute;inset:-1px;border-radius:16px;background:linear-gradient(135deg,rgba(45,212,160,.5) 0%,transparent 40%,transparent 60%,rgba(45,212,160,.2) 100%);z-index:0;animation:borderPulse 3s ease-in-out infinite}
+@keyframes borderPulse{0%,100%{opacity:.6}50%{opacity:1}}
 .hero-img-inner{position:absolute;inset:1px;border-radius:15px;overflow:hidden;z-index:1;background:var(--bg3)}
 .hero-img-inner img{width:100%;height:100%;object-fit:cover;object-position:center top;-webkit-mask-image:linear-gradient(to bottom,black 50%,transparent 100%);mask-image:linear-gradient(to bottom,black 50%,transparent 100%);animation:imgFloat 8s ease-in-out infinite;filter:brightness(1.02)}
-@keyframes borderSpin{to{transform:rotate(360deg)}}
 @keyframes imgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 /* teal glow */
 .hero-img-outer::after{content:'';position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:60%;height:80px;background:var(--t);filter:blur(50px);opacity:.2;z-index:0;border-radius:50%}
@@ -128,24 +128,21 @@ nav ul a:hover{color:var(--t)}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
 
 /* ═══ ABOUT ═══ */
-.about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:5rem;align-items:center}
-.about-img-area{position:relative;height:560px}
-/* main photo */
-.a-img-main{position:absolute;top:0;left:0;width:68%;height:480px;border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-img-area{position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:10px}
+.a-img-main{border-radius:12px;overflow:hidden;border:1px solid var(--border);grid-column:span 2;height:320px}
 .a-img-main img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .7s;filter:grayscale(8%)}
 .a-img-main:hover img{transform:scale(1.04)}
-/* overlay label */
-.a-img-main::after{content:'About Me';position:absolute;bottom:0;left:0;right:0;padding:1rem 1.25rem;background:linear-gradient(to top,rgba(6,6,8,.9),transparent);font-family:'Space Mono',monospace;font-size:10px;color:var(--t);letter-spacing:.12em;text-transform:uppercase}
-/* small photo */
-.a-img-sm{position:absolute;bottom:0;right:0;width:52%;height:270px;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.a-img-sm{border-radius:12px;overflow:hidden;border:1px solid var(--border);height:200px}
 .a-img-sm img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .7s}
 .a-img-sm:hover img{transform:scale(1.05)}
-/* glow between */
-.a-glow{position:absolute;bottom:25%;left:35%;width:120px;height:120px;background:var(--t);filter:blur(60px);opacity:.08;border-radius:50%;pointer-events:none}
-/* floating card */
-.a-float-card{position:absolute;top:50%;right:-12px;transform:translateY(-50%);background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;z-index:5;display:flex;flex-direction:column;gap:.25rem}
-.a-float-card-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--t);letter-spacing:.1em;text-transform:uppercase}
-.a-float-card-val{font-size:1.4rem;font-weight:700;color:var(--text)}
+/* stat card */
+.a-stat-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;position:relative;overflow:hidden}
+.a-stat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,var(--t3),transparent 70%)}
+.a-stat-card-num{font-size:3rem;font-weight:700;color:var(--t);line-height:1;position:relative;z-index:1}
+.a-stat-card-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;position:relative;z-index:1}
+/* glow */
+.a-glow{display:none}
 
 .about-body p{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:1rem}
 .about-body strong{color:var(--text);font-weight:500}
@@ -256,18 +253,49 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 3.5
 .f-links a:hover{color:var(--t)}
 
 @media(max-width:900px){
-  nav{padding:.9rem 1.5rem}nav ul{display:none}
-  #hero{grid-template-columns:1fr;padding:7rem 1.5rem 4rem;gap:2.5rem}
+  nav{padding:1rem 1.25rem}
+  nav ul{display:none}
+  .n-cta{padding:7px 14px;font-size:11px}
+
+  #hero{grid-template-columns:1fr;padding:7rem 1.25rem 4rem;gap:2rem}
   .hero-img-col{order:-1}
-  .wrap{padding:4.5rem 1.5rem}
-  .about-grid,.thesis-grid,.exp-item,.edu-item,.contact-wrap{grid-template-columns:1fr;gap:2rem}
-  .about-img-area{height:380px}
-  .thesis-cards{height:420px}
-  .cert-grid{grid-template-columns:1fr}
+  .hero-img-outer{max-width:280px;margin:0 auto}
+  .img-badge-2{display:none}
+  .hero-name-row .hn{font-size:clamp(3rem,14vw,5rem)}
+  .hero-desc{font-size:14px}
+  .hero-btns{flex-direction:column}
+  .btn-main,.btn-ghost{text-align:center;justify-content:center}
+  .hero-meta{gap:1.5rem}
+  .scroll-hint{left:1.25rem}
+
+  .wrap{padding:4rem 1.25rem}
+  .s-title{font-size:2rem}
+
+  .about-grid{grid-template-columns:1fr;gap:2rem}
+  .about-img-area{grid-template-columns:1fr 1fr}
+  .a-img-main{height:240px}
+  .a-img-sm,.a-stat-card{height:160px}
+
+  .thesis-grid{grid-template-columns:1fr;gap:2rem}
+  .thesis-cards{height:400px}
+
+  .exp-item{grid-template-columns:1fr;gap:1rem;padding:2rem 0}
+  .exp-role{font-size:1.3rem}
+
+  .edu-item{grid-template-columns:1fr;gap:.75rem;padding:2rem 0}
+
+  .cert-grid{grid-template-columns:1fr;gap:1px}
+
   .life-grid{grid-template-columns:1fr;height:auto}
-  .life-card:first-child{grid-row:span 1;height:280px}
-  .life-card:not(:first-child){height:220px}
-  footer{flex-direction:column;gap:.75rem;text-align:center;padding:1.5rem}
+  .life-card:first-child{grid-row:span 1;height:260px}
+  .life-card:not(:first-child){height:200px}
+  .life-loc{height:160px}
+
+  .contact-wrap{grid-template-columns:1fr;gap:2.5rem;padding:4rem 1.25rem}
+  .c-big{font-size:2rem}
+
+  footer{flex-direction:column;gap:.75rem;text-align:center;padding:1.5rem 1.25rem}
+  .f-links{gap:1.25rem;flex-wrap:wrap;justify-content:center}
 }
 </style>
 </head>
@@ -356,10 +384,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 3.5
   <div class="about-grid">
     <div class="rv-l">
       <div class="about-img-area">
-        <div class="a-glow"></div>
         <div class="a-img-main"><img src="about.jpg" alt="Gabriel" onerror="this.parentElement.style.background='var(--bg3)'"/></div>
         <div class="a-img-sm"><img src="yelp.jpg" alt="Gabriel" onerror="this.parentElement.style.background='var(--bg4)'"/></div>
-        <div class="a-float-card"><div class="a-float-card-label">Experience</div><div class="a-float-card-val">2+ Yrs</div></div>
+        <div class="a-stat-card">
+          <div class="a-stat-card-num">2+</div>
+          <div class="a-stat-card-label">Years of<br/>Experience</div>
+        </div>
       </div>
     </div>
     <div class="rv d2 about-body">
@@ -482,9 +512,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 3.5
     </div>
   </div>
   <div class="cert-grid">
-    <div class="c-card rv"><div class="c-top"><div class="c-ico">🌐</div><div class="c-idx">01</div></div><div class="c-name">Responsible AI in a Global Context</div><div class="c-iss">United Nations University (UNU)</div><div class="c-dt">April 26, 2026</div></div>
-    <div class="c-card rv d1"><div class="c-top"><div class="c-ico">⚙️</div><div class="c-idx">02</div></div><div class="c-name">Atlassian IT Service Management</div><div class="c-iss">Atlassian</div><div class="c-dt">April 26, 2026</div></div>
-    <div class="c-card rv d2"><div class="c-top"><div class="c-ico">💻</div><div class="c-idx">03</div></div><div class="c-name">CompTIA A+ Core 1 (220-1201) Cert Prep</div><div class="c-iss">CompTIA · LinkedIn Learning</div><div class="c-dt">May 1, 2026</div></div>
+    <div class="c-card rv"><div class="c-top"><div class="c-ico"></div><div class="c-idx">01</div></div><div class="c-name">Responsible AI in a Global Context</div><div class="c-iss">United Nations University (UNU)</div><div class="c-dt">April 26, 2026</div></div>
+    <div class="c-card rv d1"><div class="c-top"><div class="c-ico"></div><div class="c-idx">02</div></div><div class="c-name">Atlassian IT Service Management</div><div class="c-iss">Atlassian</div><div class="c-dt">April 26, 2026</div></div>
+    <div class="c-card rv d2"><div class="c-top"><div class="c-ico"></div><div class="c-idx">03</div></div><div class="c-name">CompTIA A+ Core 1 (220-1201) Cert Prep</div><div class="c-iss">CompTIA · LinkedIn Learning</div><div class="c-dt">May 1, 2026</div></div>
   </div>
 </div>
 
